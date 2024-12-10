@@ -1,29 +1,6 @@
 from window import Window
 from objects import Line, Point, Cell
-
-def create_grid(win_width, win_height, grid_width, grid_height, win):
-    x = grid_width
-    y = grid_height
-
-    rows = []
-    cols = []
-
-    while y < win_height:
-        while x < win_width:
-            top_left = Point(x,y)
-            bottom_right = Point(x+grid_width, y+grid_height)
-            cell = Cell(top_left, bottom_right, win)
-            cell.draw("black")
-            x += grid_width
-            rows.append(cell)
-        x = grid_width
-        y += grid_height
-        cols.append(rows)
-        rows = []
-
-    print(f"Created grid.")
-
-    return cols
+from maze import Maze
 
 def test_draw_cell(delta, size, grid_height, grid_width, win):
     
@@ -62,13 +39,7 @@ def main():
     grid_width = 50
     grid_height = 50
 
-    cells = create_grid(win_width, win_height, grid_width, grid_height, win)
- 
-    cells[0][0].draw_move(cells[0][1])
-    
-    #delta = 10
-    #size = 30
-    #test_draw_cell(delta, size, grid_height, grid_width, win)
+    maze = Maze(grid_width, grid_height, 10, 10, grid_width, grid_height, win)
 
     win.wait_for_close()
     

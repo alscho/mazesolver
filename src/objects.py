@@ -16,7 +16,7 @@ class Line():
         )
     
 class Cell():
-    def __init__(self, p1, p2, win):
+    def __init__(self, p1, p2, win = None):
         self.__win = win
         self.__x1 = p1.x
         self.__y1 = p1.y
