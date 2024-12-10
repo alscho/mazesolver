@@ -16,12 +16,13 @@ class Line():
         )
     
 class Cell():
-    def __init__(self, p1, p2, win = None):
-        self.__win = win
-        self.__x1 = p1.x
-        self.__y1 = p1.y
-        self.__x2 = p2.x
-        self.__y2 = p2.y
+    def __init__(self, win = None):
+        self.visited = False
+        self._win = win
+        self._x1 = None
+        self._y1 = None
+        self._x2 = None
+        self._y2 = None
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -54,10 +55,10 @@ class Cell():
         return walls
 
     def get_coordinates(self):
-        left_x = min(self.__x1, self.__x2)
-        right_x = max(self.__x1, self.__x2)
-        top_y = min(self.__y1, self.__y2)
-        bottom_y = max(self.__y1, self.__y2)
+        left_x = min(self._x1, self._x2)
+        right_x = max(self._x1, self._x2)
+        top_y = min(self._y1, self._y2)
+        bottom_y = max(self._y1, self._y2)
         return (left_x, top_y), (right_x, bottom_y)
     
     def get_centre(self):
@@ -67,32 +68,57 @@ class Cell():
         centre = Point(centre_x, centre_y)
         return centre
 
-    def draw(self, fill_color):
-        left_x = min(self.__x1, self.__x2)
-        right_x = max(self.__x1, self.__x2)
-        top_y = min(self.__y1, self.__y2)
-        bottom_y = max(self.__y1, self.__y2)
+    def draw(self, x1, x2, y1, y2, fill_color):
+        self._x1 = left_x = min(x1, x2)
+        self._x2 = right_x = max(x1, x2)
+        self._y1 = top_y = min(y1, y2)
+        self._y2 = bottom_y = max(y1, y2)
         top_left = Point(left_x, top_y)
         bottom_left = Point(left_x, bottom_y)
         top_right = Point(right_x, top_y)
         bottom_right = Point(right_x, bottom_y)
 
+        if self._win == None:
+            return
+
+        top = Line(top_left, top_right)
+        if self.has_top_wall:
+            self._win.draw_line(top, fill_color)
+        else:
+            self._win.draw_line(top, "white")
+
+        bottom = Line(bottom_left, bottom_right)
+        if self.has_bottom_wall:
+            self._win.draw_line(bottom, fill_color)
+        else:
+            self._win.draw_line(bottom, "white")
+
+        left = Line(bottom_left, top_left)
+        if self.has_left_wall:
+            self._win.draw_line(left, fill_color)
+        else:
+            self._win.draw_line(left, "white")
+
+        right = Line(bottom_right, top_right)
+        if self.has_right_wall:
+            self._win.draw_line(right, fill_color)
+        else:
+            self._win.draw_line(right, "white")
+
+        '''
         if self.has_top_wall:
             top = Line(top_left, top_right)
-            self.__win.draw_line(top, fill_color)
-            #top.draw(canvas, fill_color)
+            self._win.draw_line(top, fill_color)
         if self.has_bottom_wall:
             bottom = Line(bottom_left, bottom_right)
-            self.__win.draw_line(bottom, fill_color)
-            #bottom.draw(canvas, fill_color)
+            self._win.draw_line(bottom, fill_color)
         if self.has_left_wall:
             left = Line(bottom_left, top_left)
-            self.__win.draw_line(left, fill_color)
-            #left.draw(canvas, fill_color)
+            self._win.draw_line(left, fill_color)
         if self.has_right_wall:
             right = Line(bottom_right, top_right)
-            self.__win.draw_line(right, fill_color)
-            #right.draw(canvas, fill_color)
+            self._win.draw_line(right, fill_color)
+        '''
 
     def draw_move(self, to_cell, undo = False):
         centre1 = self.get_centre()
@@ -105,7 +131,7 @@ class Cell():
         else:
             fill_color = "red"
 
-        self.__win.draw_line(path, fill_color)
+        self._win.draw_line(path, fill_color)
 
 
 
