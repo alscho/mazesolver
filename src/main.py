@@ -37,10 +37,10 @@ def main():
     win_width = 1200
     win_height = 900
     win = Window(win_width, win_height)
-    grid_width = 100
-    grid_height = 100
+    grid_width = 30
+    grid_height = 30
 
-    maze = Maze(grid_width, grid_height, 7, 7, grid_width, grid_height, win)
+    maze = Maze(grid_width, grid_height, 10, 12, grid_width, grid_height, win)
     maze._break_entrance_and_exit()
     maze._break_walls_r(0, 0)
     print("Reset visited status.")

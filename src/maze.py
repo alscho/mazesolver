@@ -45,7 +45,7 @@ class Maze():
             new_y = j
             self.solve_direction(current, new_x, new_y)
 
-        if (i != self._num_rows - 1) and current.has_bottom_wall == False and self._cells[i+1][j].visited == False:
+        if (i != self._num_cols - 1) and current.has_bottom_wall == False and self._cells[i+1][j].visited == False:
             print("Trying down.")
             new_x = i+1
             new_y = j
@@ -57,7 +57,7 @@ class Maze():
             new_y = j-1
             self.solve_direction(current, new_x, new_y)
 
-        if (j != self._num_cols - 1) and current.has_right_wall == False and self._cells[i][j+1].visited == False:
+        if (j != self._num_rows - 1) and current.has_right_wall == False and self._cells[i][j+1].visited == False:
             print("Trying right.")
             new_x = i
             new_y = j+1
@@ -74,11 +74,11 @@ class Maze():
             indexes = []
             if i != 0 and self._cells[i-1][j].visited == False:
                 indexes.append((i-1, j, "up"))
-            if (i != self._num_rows - 1) and self._cells[i+1][j].visited == False:
+            if (i != self._num_cols - 1) and self._cells[i+1][j].visited == False:
                 indexes.append((i+1, j, "down"))
             if j != 0 and self._cells[i][j-1].visited == False:
                 indexes.append((i, j-1, "left"))
-            if (j != self._num_cols - 1) and self._cells[i][j+1].visited == False:
+            if (j != self._num_rows - 1) and self._cells[i][j+1].visited == False:
                 indexes.append((i, j+1, "right"))
 
             if len(indexes) == 0:
@@ -114,7 +114,7 @@ class Maze():
         self._draw_cell(0, 0)
 
         self._cells[-1][-1].has_bottom_wall = False
-        self._draw_cell(self._num_rows -1, self._num_cols -1)
+        self._draw_cell(self._num_cols -1, self._num_rows -1)
 
     def _create_cells(self):
         x = self._x1
@@ -154,4 +154,4 @@ class Maze():
     def _animate(self):
         if self._win:
             self._win.redraw()
-            time.sleep(0.05)
+            time.sleep(0.02)
